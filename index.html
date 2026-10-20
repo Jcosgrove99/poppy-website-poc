@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Poppy — poppy.json</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <h1>🌺 Poppy</h1>
+      <p class="sub">This site has one job: expose an editable
+        <a href="poppy.json" target="_blank" rel="noopener"><code>poppy.json</code></a>.
+      </p>
+    </header>
+
+    <div class="bar">
+      <span id="status" class="status">Loading…</span>
+      <span class="spacer"></span>
+      <button id="format" type="button">Format</button>
+      <button id="reload" type="button">Reload</button>
+      <button id="download" type="button">Download</button>
+      <button id="save" type="button" class="primary">Save</button>
+    </div>
+
+    <textarea id="editor" spellcheck="false" aria-label="poppy.json editor"></textarea>
+
+    <p id="error" class="error" role="alert"></p>
+
+    <footer>
+      <p>
+        <strong>Save</strong> writes back to <code>poppy.json</code> on the server
+        (run <code>npm start</code>). On static hosting, Save downloads the file instead.
+        Raw file: <a href="poppy.json"><code>GET /poppy.json</code></a>
+      </p>
+    </footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "Poppy",
+  "description": "Edit me — this file is the whole point of this site.",
+  "version": "0.1.0",
+  "color": "#e4572e",
+  "blooming": true,
+  "tags": [
+    "poc",
+    "editable",
+    "json"
+  ]
+}

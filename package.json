@@ -1,0 +1,12 @@
+{
+  "name": "poppy-website-poc",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A website whose sole purpose is to expose an editable poppy.json",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
