@@ -71,5 +71,26 @@ button:disabled { opacity: 0.5; cursor: default; }
 #editor:focus { outline: 2px solid var(--poppy); outline-offset: 1px; }
 
 .error { color: var(--bad); font-size: 14px; min-height: 20px; margin: 8px 0 0; white-space: pre-wrap; }
+
+.panel {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  padding: 16px 20px;
+  margin-top: 16px;
+}
+.panel h2 { margin: 0 0 8px; font-size: 18px; }
+.panel p { color: var(--muted); font-size: 14px; line-height: 1.5; }
+.tokenrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; }
+.tokenrow input[type="password"] {
+  flex: 1 1 260px;
+  font: inherit;
+  font-size: 14px;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.remember { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+.tokenstate { font-size: 13px; }
 footer { color: var(--muted); font-size: 13px; margin-top: 16px; }
 code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }

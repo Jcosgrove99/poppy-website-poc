@@ -1,12 +1,8 @@
 {
-  "name": "Poppy",
-  "description": "Edit me — this file is the whole point of this site.",
-  "version": "0.1.0",
-  "color": "#e4572e",
-  "blooming": true,
-  "tags": [
-    "poc",
-    "editable",
-    "json"
-  ]
+  "protocol_version": "0.2",
+  "organization": {
+    "name": "Poppy Website POC",
+    "domain": "jcosgrove99.github.io"
+  },
+  "web": {}
 }
