@@ -18,7 +18,7 @@ document at two paths, always kept in sync:
 
 Current document (Draft 0.2, §3.1 field table) — every part of the schema
 is present, with an **example value** in each optional part, modeled on the
-spec's own §3 example:
+spec's own §3 example (except `apis`, which points to a real MCP server):
 
 ```json
 {
@@ -52,16 +52,10 @@ spec's own §3 example:
   },
   "apis": [
     {
-      "type": "openapi",
-      "url": "https://api.example.com/openapi.json",
-      "description": "Orders, returns, and exchanges",
-      "resource": "https://api.example.com"
-    },
-    {
       "type": "mcp",
-      "url": "https://mcp.example.com/mcp",
-      "description": "Product search and sizing",
-      "resource": "https://mcp.example.com"
+      "url": "https://mcp.ai-platform.t-mobile.com/nexus-duck-prod/mcp",
+      "description": "T-Mobile commerce catalog — search devices, plans, accessories, and promotions",
+      "resource": "https://mcp.ai-platform.t-mobile.com/nexus-duck-prod/mcp"
     }
   ],
   "web": {
@@ -87,10 +81,15 @@ How to read it:
   values: `auth` (required once `agent`, `apis`, `feedback`, or
   `web.browser_session_endpoint` is present) with all three sign-in types
   (`direct`, `device`, `mediated`) and a `custom_scopes` entry; `agent` with
-  the `poppy` conversation protocol; `apis` with one `openapi` and one `mcp`
-  entry; `web.browser_session_endpoint`; `feedback`; and the `operations`
+  the `poppy` conversation protocol; `apis` (see the exception below);
+  `web.browser_session_endpoint`; `feedback`; and the `operations`
   extension. The optional `resource` field is shown on the `agent`, `apis`,
   and extension entries, as §3.1/§4.3 allow.
+- **Exception — `apis` is real, not an example.** The single `apis` entry
+  points to Jake's actual T-Mobile commerce-catalog MCP server
+  (`nexus-duck-prod`, public/no-auth; tools: search devices, plans,
+  accessories, promos), verified live. Its `resource` is the MCP server's
+  own URL, as §4.3 describes for MCP entries.
 - **These example endpoints are placeholders, not live services.** A real
   deployment must replace them with real endpoints: in particular an agent
   verifies `auth.issuer` against that issuer's RFC 8414 metadata
