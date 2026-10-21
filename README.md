@@ -28,7 +28,7 @@ spec's own §3 example (except `apis`, which points to a real MCP server):
     "domain": "jcosgrove99.github.io"
   },
   "auth": {
-    "issuer": "https://auth.example.com",
+    "issuer": "https://poppy-guest-issuer-demo.onrender.com",
     "direct": { "scopes": ["poppy:read", "poppy:write", "addresses"] },
     "device": { "scopes": ["poppy:read", "poppy:write"] },
     "mediated": {
@@ -90,14 +90,24 @@ How to read it:
   (`nexus-duck-prod`, public/no-auth; tools: search devices, plans,
   accessories, promos), verified live. Its `resource` is the MCP server's
   own URL, as §4.3 describes for MCP entries.
-- **These example endpoints are placeholders, not live services.** A real
-  deployment must replace them with real endpoints: in particular an agent
-  verifies `auth.issuer` against that issuer's RFC 8414 metadata
-  (`poppy_domains` must list this domain, §3.2), which the example issuer
-  does not publish — so as filled in, this document is a complete template
-  to build from, not a verifiable production declaration. The earlier
-  website-only version (`web: {}` and no `auth`) is the minimal form that
-  is fully truthful for this site today.
+- **Exception — `auth.issuer` is real, too.** The issuer is Jake's demo
+  Poppy issuer at `https://poppy-guest-issuer-demo.onrender.com`. Its
+  RFC 8414 metadata was verified live (Oct 21, 2026): `issuer` matches
+  exactly, `poppy_domains` is `["jcosgrove99.github.io"]`, and it publishes
+  `token_endpoint` + `revocation_endpoint` with the jwt-bearer grant and
+  `private_key_jwt` (ES256/RS256) — so the §3.2 cross-check **passes**
+  (`tools/poppy-check.mjs`: 0 FAIL). Two mismatches to know about: the
+  metadata has no `authorization_endpoint` or
+  `device_authorization_endpoint`, which §3.2 requires *if* `auth.direct`
+  / `auth.device` are declared — as a guest issuer it serves signed-out
+  (jwt-bearer) sessions, so those two declarations outrun what it can
+  serve until it grows those endpoints (or the declarations are trimmed).
+  The `mediated` endpoint below is still an example value.
+- **The remaining example endpoints are placeholders, not live services**
+  (`auth.mediated.endpoint`, `agent`, `feedback`, `extensions` — the
+  `example.com` URLs). Replace them with real endpoints as services come
+  online; until then the document is best read as: a verifiable issuer +
+  a real API, inside a complete template for the rest.
 - Project-site caveat: on a custom domain the well-known file sits at the
   domain root; GitHub *project* Pages serve under `/poppy-website-poc/`, so
   here it is `/{repo}/.well-known/poppy.json` on the same host.
