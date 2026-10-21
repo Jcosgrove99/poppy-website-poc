@@ -5,7 +5,7 @@
     "domain": "jcosgrove99.github.io"
   },
   "auth": {
-    "issuer": "https://auth.example.com",
+    "issuer": "https://poppy-guest-issuer-demo.onrender.com",
     "direct": {
       "scopes": [
         "poppy:read",
