@@ -11,7 +11,9 @@
     <header>
       <h1>🌺 Poppy</h1>
       <p class="sub">This site has one job: expose an editable
-        <a href="poppy.json" target="_blank" rel="noopener"><code>poppy.json</code></a>.
+        <code>poppy.json</code> that follows the Personal Agent Protocol (Draft 0.2).
+        Protocol location: <a href=".well-known/poppy.json"><code>/.well-known/poppy.json</code></a>
+        · Root copy: <a href="poppy.json"><code>/poppy.json</code></a>
       </p>
     </header>
 
@@ -28,11 +30,40 @@
 
     <p id="error" class="error" role="alert"></p>
 
+    <section id="githubPanel" class="panel" hidden>
+      <h2>Save for the whole site</h2>
+      <p>
+        This site is hosted as static files on GitHub Pages, so the only way a
+        browser save can change the site for everyone is to commit the file to
+        the repo (<code>Jcosgrove99/poppy-website-poc</code>). That needs a
+        GitHub token with write access — a
+        <strong>fine-grained personal access token</strong> limited to this one
+        repo, with <strong>Contents: Read and write</strong>. Create one at
+        GitHub → Settings → Developer settings → Personal access tokens →
+        Fine-grained tokens.
+      </p>
+      <p>
+        Your token is kept only in this browser and is sent only to
+        <code>api.github.com</code>. Anyone without a write token can edit the
+        text here, but can't change the live site.
+      </p>
+      <div class="tokenrow">
+        <input id="tokenInput" type="password" placeholder="github_pat_…" autocomplete="off" />
+        <label class="remember"><input id="rememberToken" type="checkbox" /> Remember on this device</label>
+        <button id="connectToken" type="button" class="primary">Connect &amp; Save</button>
+        <button id="clearToken" type="button">Forget token</button>
+      </div>
+      <p id="tokenState" class="tokenstate"></p>
+    </section>
+
     <footer>
       <p>
-        <strong>Save</strong> writes back to <code>poppy.json</code> on the server
-        (run <code>npm start</code>). On static hosting, Save downloads the file instead.
-        Raw file: <a href="poppy.json"><code>GET /poppy.json</code></a>
+        <strong>Save</strong> writes the new document for the entire site:
+        locally it saves through the included server (<code>npm start</code>);
+        on the public site it commits to both <code>main</code> and
+        <code>gh-pages</code>, updating <code>poppy.json</code> and
+        <code>.well-known/poppy.json</code> together — GitHub Pages then
+        rebuilds (usually about a minute).
       </p>
     </footer>
   </main>
