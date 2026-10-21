@@ -16,7 +16,9 @@ document at two paths, always kept in sync:
 - `/.well-known/poppy.json` — the protocol location
 - `/poppy.json` — the original root copy, and the file the editor loads
 
-Current document (Draft 0.2, §3.1 field table):
+Current document (Draft 0.2, §3.1 field table) — every part of the schema
+is present, with an **example value** in each optional part, modeled on the
+spec's own §3 example:
 
 ```json
 {
@@ -25,23 +27,78 @@ Current document (Draft 0.2, §3.1 field table):
     "name": "Poppy Website POC",
     "domain": "jcosgrove99.github.io"
   },
-  "web": {}
+  "auth": {
+    "issuer": "https://auth.example.com",
+    "direct": { "scopes": ["poppy:read", "poppy:write", "addresses"] },
+    "device": { "scopes": ["poppy:read", "poppy:write"] },
+    "mediated": {
+      "endpoint": "https://auth.example.com/poppy/sign-in",
+      "fields": [
+        { "name": "email", "label": "Email", "secret": false },
+        { "name": "password", "label": "Password", "secret": true }
+      ],
+      "scopes": ["poppy:read"]
+    },
+    "custom_scopes": { "addresses": "Manage saved shipping addresses" }
+  },
+  "agent": {
+    "protocols": [
+      {
+        "type": "poppy",
+        "endpoint": "https://api.example.com/poppy/conversations",
+        "resource": "https://api.example.com"
+      }
+    ]
+  },
+  "apis": [
+    {
+      "type": "openapi",
+      "url": "https://api.example.com/openapi.json",
+      "description": "Orders, returns, and exchanges",
+      "resource": "https://api.example.com"
+    },
+    {
+      "type": "mcp",
+      "url": "https://mcp.example.com/mcp",
+      "description": "Product search and sizing",
+      "resource": "https://mcp.example.com"
+    }
+  ],
+  "web": {
+    "browser_session_endpoint": "https://jcosgrove99.github.io/poppy-website-poc/poppy/browser-session"
+  },
+  "feedback": { "endpoint": "https://api.example.com/poppy/feedback" },
+  "extensions": {
+    "operations": {
+      "version": "1",
+      "endpoint": "https://api.example.com/poppy/operations",
+      "resource": "https://api.example.com"
+    }
+  }
 }
 ```
 
-Why it looks like this:
+How to read it:
 
 - `protocol_version` and `organization` are the two always-required fields.
-- `organization.domain` MUST be the host that serves the document — here that
-  is `jcosgrove99.github.io`.
-- At least one of `agent`, `apis`, or `web` must be present. This POC is the
-  spec's **website-only** profile ("Progressive adoption"): `web` with no
-  `browser_session_endpoint`, so `auth` is not required and Personal Agents
-  browse the site as ordinary visitors. Add `auth` (with an `issuer` whose
-  RFC 8414 metadata lists this domain in `poppy_domains`), `apis`, `agent`,
-  or `feedback` from the editor as real endpoints come online — do not publish
-  placeholder endpoints that don't exist; the issuer cross-check in §3.2
-  would fail and the declarations would be false.
+  `organization.domain` MUST be the host that serves the document — here
+  that is `jcosgrove99.github.io` — so that block is real, not an example.
+- Everything else is an **optional** part of the schema, filled with example
+  values: `auth` (required once `agent`, `apis`, `feedback`, or
+  `web.browser_session_endpoint` is present) with all three sign-in types
+  (`direct`, `device`, `mediated`) and a `custom_scopes` entry; `agent` with
+  the `poppy` conversation protocol; `apis` with one `openapi` and one `mcp`
+  entry; `web.browser_session_endpoint`; `feedback`; and the `operations`
+  extension. The optional `resource` field is shown on the `agent`, `apis`,
+  and extension entries, as §3.1/§4.3 allow.
+- **These example endpoints are placeholders, not live services.** A real
+  deployment must replace them with real endpoints: in particular an agent
+  verifies `auth.issuer` against that issuer's RFC 8414 metadata
+  (`poppy_domains` must list this domain, §3.2), which the example issuer
+  does not publish — so as filled in, this document is a complete template
+  to build from, not a verifiable production declaration. The earlier
+  website-only version (`web: {}` and no `auth`) is the minimal form that
+  is fully truthful for this site today.
 - Project-site caveat: on a custom domain the well-known file sits at the
   domain root; GitHub *project* Pages serve under `/poppy-website-poc/`, so
   here it is `/{repo}/.well-known/poppy.json` on the same host.
